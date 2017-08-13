@@ -142,14 +142,16 @@ autocmd BufWritePre * StripWhitespace
 
 " vim-signify
 let g:signify_vcs_list=['git', 'hg']
-
 if has("gui_running")
 	if has("gui_gtk2")
 		set guifont=Inconsolata\ 12
 	elseif has("gui_macvim")
 		set guifont=Menlo\ Regular:h14
 	elseif has("gui_win32")
-		set guifont=Consolas:h11:cANSI
+		" set guifont=Consolas:h11:cANSI
+        set guifont=Fira\ Code:h11
+        " set guifont=Iosevka:h12
+        set renderoptions=type:directx
 	endif
 else
 	set t_Co=256
