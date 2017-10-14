@@ -45,6 +45,7 @@ call vundle#end()
 filetype plugin indent on
 syntax on
 
+ au BufNewFile,BufRead *.ss set filetype=xhtml
 set fileformat=unix
 set fileformats=unix,dos
 set encoding=utf-8
@@ -61,6 +62,9 @@ set cpoptions+=n
 
 " Convenient leader.
 let mapleader=' '
+
+" Set guide columns.
+set cc=81,121
 
 " Fix typos.
 command! W :w
@@ -81,12 +85,13 @@ noremap <leader>k :bnext<cr>
 set title
 set laststatus=2
 
-" I want to see 80 characters for my code, regardless of the size of the
-" gutter.
+" I want to see 82 characters for my code, regardless of the size of the
+" gutter; this gives me a 3-char margin on the right, which looks nice, and we
+" won't wrap once the left gutter expands.
 set nu
 " From http://superuser.com/a/330352
 au BufRead * let &numberwidth = float2nr(log10(line("$"))) + 4
-	\| let &columns = &numberwidth + 82
+	\| let &columns = &numberwidth + 83
 
 set nostartofline " Keep the cursor's column position.
 
