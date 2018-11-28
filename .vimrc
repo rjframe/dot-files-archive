@@ -28,6 +28,11 @@ Plugin 'somini/vim-autoclose'
 Plugin 'tpope/vim-speeddating'
 Plugin 'mhinz/vim-signify'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'previm/previm'
+
+"Syntax
+"Plugin 'udalov/kotlin-vim'
+"Plugin 'dleonard0/pony-vim-syntax'
 
 " Colorschemes I like.
 Plugin 'sjl/badwolf'
@@ -60,6 +65,13 @@ set shiftwidth=4
 set tabstop=4
 set cpoptions+=n
 
+set noswapfile
+
+" Search settings
+set ignorecase
+set smartcase
+set incsearch
+
 " Convenient leader.
 let mapleader=' '
 
@@ -81,6 +93,30 @@ noremap <leader>b <C-O>
 " Buffer navigation.
 noremap <leader>j :bprevious<cr>
 noremap <leader>k :bnext<cr>
+
+" Macro control
+nnoremap Q @@
+set lazyredraw
+
+" Run file w/ DMD (12/15/17)
+noremap <leader>r :0,$!dmd -run -<cr>
+
+" Unittest current file in D (4/24/18)
+function! DTest()
+  let l:fn = substitute(expand('%:r'), '/', '-', 'g') . '.lst'
+  call delete(l:fn)
+  cexpr system('dmd -cov -unittest -main -run ' . expand('%'))
+  if filereadable(l:fn)
+     normal gg
+     execute '13vsplit' l:fn
+     normal gg
+     set scrollbind
+     normal ^Wl
+     set scrollbind
+  endif
+endfunction
+autocmd FileType d nnoremap <leader>t :call DTest()<cr>
+
 
 set title
 set laststatus=2
@@ -161,3 +197,7 @@ if has("gui_running")
 else
 	set t_Co=256
 endif
+
+" previm
+" TODO: Cross-platform path.
+let g:previm_open_cmd=shellescape('C:\Users\rjfra\AppData\Local\Vivaldi\Application\vivaldi.exe')
