@@ -2,8 +2,6 @@ set nocompatible
 
 " New PC tasks:
 " - Install Vundle
-" - Set up YouCompleteMe
-"   * See https://valloric.github.io/YouCompleteMe/#full-installation-guide
 
 "Vundle commands:
 " :PluginList       - lists configured plugins
@@ -12,16 +10,31 @@ set nocompatible
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 " see :h vundle for more details or wiki for FAQ
 
+" From https://vimways.org/2018/make-your-setup-truly-cross-platform/
+" Sets only once the value of g:env to the running environment
+" from romainl
+" https://gist.github.com/romainl/4df4cde3498fada91032858d7af213c2
+function! Config_setEnv() abort
+    if exists('g:env')
+        return
+    endif
+    if has('win64') || has('win32') || has('win16')
+        let g:env = 'WINDOWS'
+    else
+       let g:env = toupper(substitute(system('uname'), '\n', '', ''))
+    endif
+endfunction
+
+
+
 " Vundle configuration.
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-"Plugin 'Valloric/YouCompleteMe'
-
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'itchyny/lightline.vim'
 Plugin 'bling/vim-bufferline'
 Plugin 'somini/vim-autoclose'
@@ -29,6 +42,7 @@ Plugin 'tpope/vim-speeddating'
 Plugin 'mhinz/vim-signify'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'previm/previm'
+Plugin 'vimwiki/vimwiki'
 
 "Syntax
 "Plugin 'udalov/kotlin-vim'
@@ -80,8 +94,6 @@ set cc=81,121
 
 " Fix typos.
 command! W :w
-
-map <leader>t :NERDTreeToggle<CR>
 
 " Fold on braces.
 map <leader>z za/{/e}<ESC>
@@ -160,7 +172,7 @@ set history=1000
 
 augroup AutoBlockComment
 	" Don't auto-comment newlines for single-line comments.
-	autocmd! FileType c,cpp,d setlocal comments -=:// comments +=f://
+	autocmd! FileType c,cpp,d,php setlocal comments -=:// comments +=f://
 augroup END
 
 " Don't expandtab for makefiles.
@@ -170,9 +182,6 @@ autocmd FileType make setlocal noexpandtab
 
 " vim-autoclose
 let g:AutoCloseExpandSpace=0
-
-" YouCompleteMe
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Molokai
 let g:molokai_original=1
@@ -189,9 +198,7 @@ if has("gui_running")
 	elseif has("gui_macvim")
 		set guifont=Menlo\ Regular:h14
 	elseif has("gui_win32")
-		" set guifont=Consolas:h11:cANSI
         set guifont=Fira\ Code:h11
-        " set guifont=Iosevka:h12
         set renderoptions=type:directx
 	endif
 else
