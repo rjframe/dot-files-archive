@@ -1,5 +1,3 @@
-set nocompatible
-
 " From romainl - https://gist.github.com/romainl/4df4cde3498fada91032858d7af213c2
 if !exists('g:env')
 	if has('win64') || has('win32') || has('win16')
